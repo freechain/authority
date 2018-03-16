@@ -13,7 +13,6 @@ server = http.create-server (req, res)->
   res.writeHead 200, {'Content-Type': 'text/html'}
   res.end get-index!
 
-
 server.listen port ? 8080
 
 process.on \uncaughtException ,  (err)->

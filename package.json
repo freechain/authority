@@ -20,8 +20,8 @@
   },
   "scripts": {
     "install-global": "npm i -g livescript lsxc forever ganache-cli",
-    "compile": "cd ./dapp && lsxc -t index.html -hpskbc  client.ls && cd ../ && lsc -c server.ls",
-    "compile-watch": "cd ./dapp && lsxc -t index.html -hpskbcw client.ls && cd ../"
+    "compile": "cd ./dapp && lsxc -t index.html -hpskbfc  client.ls && cd ../ && lsc -c server.ls",
+    "compile-watch": "cd ./dapp && lsxc -t index.html -hpskbfcw client.ls && cd ../"
   },
   "devDependencies": {},
   "repository": {

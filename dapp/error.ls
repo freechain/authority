@@ -18,7 +18,7 @@ require! {
         
 
 standard = ->
-    i.zmdi.zmdi-error
+    i.pug.zmdi.zmdi-error
 choose-ropsten = ->
     img.pug(src="http://res.cloudinary.com/thedapper/image/upload/v1519312076/metamask-ropsten-mainnet.gif")
 choose-mainnet = ->

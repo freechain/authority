@@ -3,5 +3,7 @@ require! {
     \../blockchain/.out/addresses.json
 }
 page = \loading
-current = { page }
+nickname = ""
+account = ""
+current = { page, nickname, account }
 module.exports = { current }

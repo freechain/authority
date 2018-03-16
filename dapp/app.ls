@@ -17,7 +17,7 @@ require! {
     overflow-x: hidden
     font-family: 'Titillium Web', sans-serif
     color: white
-    background: black
+    background: #2d2f39
 
 not-found = ->
     .content.pug Page Not Found
