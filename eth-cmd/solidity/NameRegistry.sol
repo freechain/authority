@@ -14,13 +14,12 @@ contract NameRegistry is SafeMath, Ownable {
     }
 
     mapping (bytes32 => address) registry;
-    
     mapping (bytes32 => address) registryOwners;
     
     function transferName(bytes32 _name, address _to) public {
+        
         require(registryOwners[_name] == msg.sender);
         registryOwners[_name] = _to;
-        
     }
     
     function registerName(
@@ -29,13 +28,9 @@ contract NameRegistry is SafeMath, Ownable {
     ) public {
         
         require(registry[_name] == 0x0);
-        
         require(registrants[msg.sender] >= price);
-        
         registrants[msg.sender] = safeSub(registrants[msg.sender], price);
-        
         registry[_name] = _address;
-        
         registryOwners[_name] = msg.sender;
         
     }

@@ -40,6 +40,10 @@ readFile = (filePath) ->
     
 
 { useConfig, outputDir } = config
+console.log { useConfig }
+
+return console.log('Please define config') if not useConfig?
+
 { ownerPrivateKey, ownerAddress, web3Provider, etherscanBaseUrl } = config[useConfig]
 
 getContractBytecode = (contractName) ->
