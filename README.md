@@ -28,5 +28,6 @@ Start the Ganache blockchain and deploy contracts
 npm run start-blockchain
 ```
 
+-----------------
 
 ethnamed.io
