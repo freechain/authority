@@ -13,7 +13,7 @@ contract NameRegistry is SafeMath, Ownable {
         registrants[msg.sender] = safeAdd(registrants[msg.sender], msg.value);
     }
 
-    mapping (bytes32 => address) registry;
+    mapping (bytes32 => address) public registry;
     mapping (bytes32 => address) registryOwners;
     
     function transferName(bytes32 _name, address _to) public {
