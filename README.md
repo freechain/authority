@@ -1,9 +1,21 @@
 ### Ethanamed Registry DAPP
 
-This DAPP helps register names in Ethnamed Registry (Ethnamed.io)
+This DAPP helps register names in Ethnamed Registry
 
 ```
 Status: Under Construction
+```
+
+```
+Website: http://ethnamed.io
+```
+
+```
+Join to collaborate: https://ide.c9.io/askucher/registrant-dapp
+```
+
+```
+Join to discuss: https://t.me/ethnamed
 ```
 
 
