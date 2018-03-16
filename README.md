@@ -22,10 +22,16 @@ Start the DAPP but later
 npm run start
 ```
 
-Start the Ganache blockchain and deploy contracts
+Start the Ganache blockchain
 
 ```
 npm run start-blockchain
+```
+
+Deploy contracts 
+
+```
+lsc ./blockchain/deploy.ls
 ```
 
 -----------------
