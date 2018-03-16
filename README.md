@@ -9,30 +9,28 @@ Status: Under Construction
 
 ![Demo](http://res.cloudinary.com/nixar-work/image/upload/v1521236213/Screen_Shot_2018-03-16_at_23.36.31.png)
 
-
-Install and Start the DAPP
-
+Install
 ```
-npm run quick-start
-```
-
-Start the DAPP but later
-
-```
-npm run start
+npm run install
+npm run compile
 ```
 
 Start the Ganache blockchain
-
 ```
 npm run start-blockchain
 ```
 
 Deploy contracts 
-
 ```
 lsc ./blockchain/deploy.ls
 ```
+
+Start the DAPP but later
+```
+npm run start
+```
+
+
 
 -----------------
 
