@@ -1,0 +1,37 @@
+{
+  "name": "ethnamed",
+  "version": "1.0.0",
+  "description": "This dapp helps register names in Ethnamed Registry",
+  "main": "index.js",
+  "dependencies": {
+    "async": "^2.6.0",
+    "bignumber.js": "^6.0.0",
+    "body-parser": "^1.18.2",
+    "decomment": "^0.9.1",
+    "ethereumjs-tx": "^1.3.4",
+    "mobx": "^4.1.0",
+    "mobx-react": "^5.0.0",
+    "prelude-ls": "^1.1.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "require-ls": "0.0.8",
+    "solc": "^0.4.21",
+    "web3": "^0.19.0"
+  },
+  "scripts": {
+    "install-global": "npm i -g livescript lsxc forever ganache-cli",
+    "compile": "cd ./dapp && lsxc -t index.html -hpskbc  client.ls && cd ../ && lsc -c server.ls",
+    "compile-watch": "cd ./dapp && lsxc -t index.html -hpskbcw client.ls && cd ../"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ethnamed/registrant-dapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ethnamed/registrant-dapp/issues"
+  },
+  "homepage": "https://github.com/ethnamed/registrant-dapp#readme"
+}
