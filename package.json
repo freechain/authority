@@ -19,7 +19,8 @@
     "web3": "^0.19.0"
   },
   "scripts": {
-    "install-global": "npm i -g livescript lsxc forever ganache-cli",
+    "quick-start": "npm run install && npm run compile && node server.js",
+    "install": "npm i && npm i -g livescript lsxc forever ganache-cli",
     "compile": "cd ./dapp && lsxc -t index.html -hpskbfc  client.ls && cd ../ && lsc -c server.ls",
     "compile-watch": "cd ./dapp && lsxc -t index.html -hpskbfcw client.ls && cd ../"
   },
