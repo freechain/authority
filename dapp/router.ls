@@ -26,13 +26,16 @@ restore-resolve = (url, store, cb)->
     err, address <- registry-contract.registry nickname
     return cb err if err?
     store.current.address = address
-    <- restore-profile url, store
+    err <- restore-profile url, store
+    return cb err if err
     cb null
 restore-membership = (url, store, cb)->
-    <- restore-profile url, store
+    err <- restore-profile url, store
+    return cb err if err
     cb null
 restore-documentation = (url, store, cb)->
-    <- restore-profile url, store
+    err <- restore-profile url, store
+    return cb err if err
     cb null
 resolve-route =
     url: (store)-> "/resolve/#{store.current.nickname}"
