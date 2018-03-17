@@ -1,4 +1,4 @@
-### Ethanamed Registry DAPP
+### Ethnamed Registry DAPP
 
 This DAPP helps register names in Ethnamed Registry
 
