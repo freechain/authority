@@ -5,7 +5,7 @@ import "./Ownable.sol";
 
 contract NameRegistry is SafeMath {
     
-    uint256 price = 0.01 ether;
+    uint256 price = 0.05 ether;
     
     address owner = 0x5cd014502003d0c4802519028b1d34f317afd810;
     
