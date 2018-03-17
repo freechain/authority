@@ -6,5 +6,6 @@ page = \loading
 nickname = ""
 account = ""
 address = ""
-current = { page, nickname, account, address }
+message = ""
+current = { page, nickname, account, address, message }
 module.exports = { current }

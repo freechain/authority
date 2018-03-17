@@ -12,3 +12,9 @@ get-contract-instance = (abi, addr) ->
 #export token-contract = getContractInstance token-abi, addresses.HeroToken
 #export sale-contract = getContractInstance sale-abi, addresses.Tokensale
 export registry-contract = get-contract-instance registry-abi, addresses.NameRegistry
+export topup = (amount, cb)->
+    transaction =
+        to: addresses.NameRegistry
+        value: web3.toWei(amount, \ether).toString!
+    err, data <- web3.eth.send-transaction transaction
+    cb err, data

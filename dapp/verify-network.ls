@@ -5,6 +5,6 @@ module.exports = (cb)->
     network =
         | net-id is \1 => \mainnet
         | net-id is \3 => \ropsten
-        | _ => \ganache
+        | _ => \registrant-dapp-askucher
     return cb "Your MetaMask is pointing to '#{network}' network but this game requires '#{host}'. Please choose '#{host}' network in MetaMask." if host isnt network
     cb null

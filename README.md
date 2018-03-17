@@ -17,7 +17,7 @@ npm run compile
 
 Start the Ganache blockchain
 ```
-npm run start-blockchain
+npm run blockchain
 ```
 
 Deploy contracts 

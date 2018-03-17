@@ -21,7 +21,7 @@
   "scripts": {
     "quick-start": "npm run install && npm run compile && node server.js",
     "start": "node server.js",
-    "start-blockchain" : "cd ./blockchain && sh /ganache-c9.sh && cd ../",
+    "blockchain" : "cd ./blockchain && sh ./ganache-c9.sh && cd ../",
     "deploy" : "cd ./blockchain && lsc ./deploy.ls && cd ../",
     "install": "npm i && npm i -g livescript lsxc forever ganache-cli",
     "compile": "cd ./dapp && lsxc -t index.html -hpskbfc  client.ls && cd ../ && lsc -c server.ls",

@@ -1,6 +1,8 @@
 require! {
     \react
     \./router.ls : { update-router, on-href-click, goto }
+    \./contracts.ls : { registry-contract, topup }
+    \./verify-network.ls
 }
 .main
     .logo
@@ -15,7 +17,7 @@ require! {
         $font: 20px
         $border: #CCC
         line-height: normal
-        height: $height
+        min-height: $height
         width: 500px
         display: inline-block
         vertical-align: middle
@@ -45,6 +47,10 @@ require! {
                     font-size: 30px
                     &:hover
                         background: rgba(white, 0.1)
+        >.message
+            background: rgba(white, 0.1)
+            padding: 10px
+            border-top: 1px solid white
         >.options
             >a
                 width: 50%
@@ -68,13 +74,36 @@ require! {
                         margin-right: 2px
                     &.part2
 module.exports = ({ store })->
-    state =
-        nickname: ""
+    empty = ->
+        ( store.current.nickname ? "" ).length is 0
+    alert = (message)->
+        store.current.message = message
+    check = (cb)->
+        return cb "Nickname is empty" if empty!
+        err <- verify-network
+        return cb err if err?
+        err, data <- registry-contract.registry store.current.nickname
+        return cb err if err?
+        return cb "Address Not Found" if data is "0x0000000000000000000000000000000000000000"
+        cb null, data
     resolve = (event)->
-        console.log "/resolve/#{state.nickname}"
-        goto "/resolve/#{state.nickname}", store
+        err, data <- check
+        return alert err if err?
+        alert data
+        #console.log "/resolve/#{store.current.nickname}"
+        #goto "/resolve/#{store.current.nickname}", store
+    buy-nickname = (event)->
+        err, data <- check
+        console.log err, data
+        return alert err if err? and err isnt "Address Not Found"
+        return alert "Address is already exists" if err isnt "Address Not Found"
+        err <- topup 0.1
+        return alert err if err?
+        err <- registry-contract.register-name store.current.nickname, store.current.account
+        return alert err if err?
+        alert "Your name is registered"
     enter-nick = (event)->
-        state.nickname = event.target.value
+        store.current.nickname = event.target.value
         #console.log state.nickname
     .pug.main
         a.logo.pug
@@ -84,10 +113,12 @@ module.exports = ({ store })->
                 input.enter.pug(placeholder="nickname" on-change=enter-nick)
                 button.pug.click-resolve(on-click=resolve)
                     i.pug.zmdi.zmdi-search
+            if (store.current.message ? "").length > 0
+                .pug.message #{store.current.message}
             .pug.options
-                a.pug(href="/membership" on-click=on-href-click(store))
-                    span.pug.part.part1 BECOME
-                    span.pug.part.part2 REGISTRANT
+                a.pug(on-click=buy-nickname)
+                    span.pug.part.part1 BUY
+                    span.pug.part.part2 NICKNAME
                 a.pug.right(href="/documentation" on-click=on-href-click(store))
-                    span.pug.part.part1 I AM
-                    span.pug.part.part2 REGISTRANT
+                    span.pug.part.part1 FOR
+                    span.pug.part.part2 DEVELOPERS
