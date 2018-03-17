@@ -10,15 +10,11 @@ require! {
 }
 { parse, stringify } = JSON
 store = observable data-scheme
-
 Main = observer ({store})->
     app { store }
-
 window.onpopstate = (event, state)-> 
     goto event.state.page, store
-
 restore-router store
-
 window.onload = ->
     render do
         Main.pug( store=store )

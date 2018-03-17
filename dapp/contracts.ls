@@ -9,9 +9,6 @@ require! {
 get-contract-instance = (abi, addr) ->
     Contract = web3.eth.contract abi
     Contract.at addr
-
 #export token-contract = getContractInstance token-abi, addresses.HeroToken
-
 #export sale-contract = getContractInstance sale-abi, addresses.Tokensale
-
-export registry = get-contract-instance registry-abi, addresses.NameRegistry
+export registry-contract = get-contract-instance registry-abi, addresses.NameRegistry

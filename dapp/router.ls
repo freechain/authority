@@ -3,6 +3,7 @@ require! {
     \mobx : { transaction }
     \../eth.ls : \web3
     \./verify-network.ls
+    \./contracts.ls : { registry-contract }
 }
 #CONFIG PART
 error-page = (err, store)->
@@ -22,6 +23,9 @@ simple-route = (page) ->
 restore-resolve = (url, store, cb)->
     [_, page, nickname] = url.split \/
     store.current.nickname = nickname
+    err, address <- registry-contract.registry nickname
+    return cb err if err?
+    store.current.address = address
     <- restore-profile url, store
     cb null
 restore-membership = (url, store, cb)->

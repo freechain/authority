@@ -16,6 +16,7 @@ contract NameRegistry is SafeMath, Ownable {
     mapping (bytes32 => address) public registry;
     mapping (bytes32 => address) registryOwners;
     
+    
     function transferName(bytes32 _name, address _to) public {
         
         require(registryOwners[_name] == msg.sender);
