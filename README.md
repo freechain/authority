@@ -14,7 +14,11 @@ npm i ethnamed
 
 ```Javascript
 
-var ethnamed = require('ethnamed');
+//API is UNDER CONSTRUCTION
+
+var web3 = require('web3'); // or window.web3
+
+var ethnamed = require('ethnamed')(web3);
 
 // TOP UP 0.1 ETH
 //But ETH on your account
