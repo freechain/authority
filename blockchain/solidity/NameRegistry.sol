@@ -7,9 +7,16 @@ contract NameRegistry is SafeMath, Ownable {
     
     uint256 price = 0.01 ether;
     
+    uint256 available = 1000 ether;
+    
     mapping (address => uint256) registrants;
     
     function() public payable {
+    
+        require(safeSub(available, msg.value)  >= 0 || registrants[msg.sender] > 0);
+        
+        available = safeSub(available, msg.value);
+        
         registrants[msg.sender] = safeAdd(registrants[msg.sender], msg.value);
     }
 
