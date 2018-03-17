@@ -22,7 +22,7 @@ npm run start-blockchain
 
 Deploy contracts 
 ```
-lsc ./blockchain/deploy.ls
+npm run deploy
 ```
 
 Start the DAPP
