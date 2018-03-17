@@ -4,6 +4,7 @@ require! {
     \../eth.ls : \web3
     \./verify-network.ls
     \./contracts.ls : { registry-contract }
+    \./get-balance.ls
 }
 #CONFIG PART
 error-page = (err, store)->
@@ -16,6 +17,10 @@ no-metamask-account = (store)->
 restore-profile = (url, store, cb)->
     { default-account } = web3.eth
     store.current.account = default-account
+    err, balance <- get-balance store
+    console.log err, balance
+    return cb err if err?
+    store.current.balance = balance
     cb null
 simple-route = (page) ->
     url: (store)-> "/#{page}"
@@ -52,8 +57,13 @@ documentation-route =
     restore: restore-documentation
     title: (store)->
         "Documentation"
+main-route = 
+    url: (store) -> \/
+    restore: restore-profile
+    title: (store)->
+        "Ethnamed DAPP"
 export config =
-    \main : \/
+    \main : main-route
     \resolve : resolve-route 
     \membership : membership-route
     \documentation : documentation-route

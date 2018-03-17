@@ -3,6 +3,7 @@ require! {
     \./router.ls : { update-router, on-href-click, goto }
     \./contracts.ls : { registry-contract, topup }
     \./verify-network.ls
+    \./get-balance.ls
 }
 .main
     .logo
@@ -18,7 +19,7 @@ require! {
         $border: #CCC
         line-height: normal
         min-height: $height
-        width: 500px
+        width: 700px
         display: inline-block
         vertical-align: middle
         border: 1px solid $border
@@ -92,16 +93,18 @@ module.exports = ({ store })->
         alert data
         #console.log "/resolve/#{store.current.nickname}"
         #goto "/resolve/#{store.current.nickname}", store
-    buy-nickname = (event)->
-        err, data <- check
-        console.log err, data
-        return alert err if err? and err isnt "Address Not Found"
-        return alert "Address is already exists" if err isnt "Address Not Found"
+    topup-balance = (event)->
         err <- topup 0.1
         return alert err if err?
-        err <- registry-contract.register-name store.current.nickname, store.current.account
+        err, balance <- get-balance
+        store.current.balance = balance
+    buy-nickname = (event)->
+        err, data <- check
+        return alert err if err? and err isnt "Address Not Found"
+        return alert "Address is already exists" if err isnt "Address Not Found"
+        err, transaction <- registry-contract.register-name store.current.nickname, store.current.account
         return alert err if err?
-        alert "Your name is registered"
+        alert "Your name is registered. Transaction #{transaction}"
     enter-nick = (event)->
         store.current.nickname = event.target.value
         #console.log state.nickname
@@ -116,9 +119,9 @@ module.exports = ({ store })->
             if (store.current.message ? "").length > 0
                 .pug.message #{store.current.message}
             .pug.options
-                a.pug(on-click=buy-nickname)
+                a.pug(on-click=topup-balance)
+                    span.pug.part.part1 TOPUP
+                    span.pug.part.part2 BALANCE (#{store.current.balance} ETH)
+                a.pug.right(on-click=buy-nickname)
                     span.pug.part.part1 BUY
                     span.pug.part.part2 NICKNAME
-                a.pug.right(href="/documentation" on-click=on-href-click(store))
-                    span.pug.part.part1 FOR
-                    span.pug.part.part2 DEVELOPERS

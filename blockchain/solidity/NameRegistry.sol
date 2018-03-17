@@ -27,7 +27,7 @@ contract NameRegistry is SafeMath {
     
     mapping (bytes32 => address) public registry;
     mapping (bytes32 => address) registryOwners;
-    mapping (address => uint256) registrants;
+    mapping (address => uint256) public registrants;
     
     
     function transferOwnership(bytes32 _name, address _to) public {

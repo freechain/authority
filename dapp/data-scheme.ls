@@ -5,7 +5,8 @@ require! {
 page = \loading
 nickname = ""
 account = ""
+balance = 0
 address = ""
 message = ""
-current = { page, nickname, account, address, message }
+current = { page, nickname, account, address, message, balance }
 module.exports = { current }
