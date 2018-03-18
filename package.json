@@ -2,7 +2,7 @@
   "name": "ethnamed",
   "version": "0.0.1",
   "description": "This dapp helps register names in Ethnamed Registry",
-  "main": "server.js",
+  "main": "api.js",
   "dependencies": {
     "async": "^2.6.0",
     "bignumber.js": "^6.0.0",
@@ -24,7 +24,7 @@
     "blockchain" : "cd ./blockchain && sh ./ganache-c9.sh && cd ../",
     "deploy" : "cd ./blockchain && lsc ./deploy.ls && cd ../",
     "install": "npm i && npm i -g livescript lsxc forever ganache-cli",
-    "compile": "cd ./dapp && lsxc -t index.html -hpskbfc  client.ls && cd ../ && lsc -c server.ls",
+    "compile": "cd ./dapp && lsxc -t index.html -hpskbfc  client.ls && cd ../ && lsc -c server.ls && lsc -c api.ls",
     "compile-watch": "cd ./dapp && lsxc -t index.html -hpskbfcw client.ls && cd ../"
   },
   "devDependencies": {},
