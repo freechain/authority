@@ -16,7 +16,7 @@ npm i ethnamed
 
 //API is UNDER CONSTRUCTION
 
-var web3 = require('web3'); // or window.web3
+var web3 = require('web3'); // or window.web3 (connected to metamask)
 
 var ethnamed = require('ethnamed')(web3);
 
@@ -25,7 +25,7 @@ var showResult = function(err, result) {
 }
 
 // TOP UP 0.1 ETH
-//But ETH on your account
+//Put ETH on your account
 
 ethnamed.topup(0.1, showResult);
 
@@ -40,6 +40,7 @@ ethnamed.registerName('nickname', '0x123...', showResult);
 //Assign another address to nickname
 
 ethnamed.changeAddress('nickname', '0x123...', showResult);
+
 
 // TRANSFER OWNERSHIP
 //Assign another owner
