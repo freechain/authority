@@ -1,9 +1,9 @@
 require! {
     \prelude-ls : { find, each, pairs-to-obj, map, span, even, capitalize }
     \mobx : { transaction }
-    \../eth.ls : \web3
+    \../eth.ls : web3
     \./verify-network.ls
-    \./contracts.ls : { registry-contract }
+    \./ethnamed.ls : { registry }
     \./get-balance.ls
 }
 #CONFIG PART
@@ -28,7 +28,7 @@ simple-route = (page) ->
 restore-resolve = (url, store, cb)->
     [_, page, nickname] = url.split \/
     store.current.nickname = nickname
-    err, address <- registry-contract.registry nickname
+    err, address <- registry nickname
     return cb err if err?
     store.current.address = address
     err <- restore-profile url, store

@@ -16,9 +16,9 @@ npm i ethnamed
 
 //API is UNDER CONSTRUCTION
 
-var web3 = require('web3'); // or window.web3 (connected to metamask)
+var web3 = if window ? window.web3 : require('web3');
 
-var ethnamed = require('ethnamed')(web3);
+var ethnamed = require('ethnamed')(window.web3);
 
 var showResult = function(err, result) {
     console.log(err, result);

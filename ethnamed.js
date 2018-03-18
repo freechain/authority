@@ -26,14 +26,16 @@
     };
   };
   module.exports = function(web3){
-    var topup, ref$, registerName, changeAddress, transferOwnership;
+    var topup, contract;
     topup = topupBuilder(web3);
-    ref$ = registryContract(web3), registerName = ref$.registerName, changeAddress = ref$.changeAddress, transferOwnership = ref$.transferOwnership;
-    return {
-      topup: topup,
-      registerName: registerName,
-      changeAddress: changeAddress,
-      transferOwnership: transferOwnership
-    };
+    contract = registryContract(web3);
+    return import$({
+      topup: topup
+    }, contract);
   };
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
 }).call(this);

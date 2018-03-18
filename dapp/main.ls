@@ -1,7 +1,7 @@
 require! {
     \react
     \./router.ls : { update-router, on-href-click, goto }
-    \./contracts.ls : { registry-contract, topup }
+    \./ethnamed.ls : { register-name, registry, topup }
     \./verify-network.ls
     \./get-balance.ls
 }
@@ -83,7 +83,7 @@ module.exports = ({ store })->
         return cb "Nickname is empty" if empty!
         err <- verify-network
         return cb err if err?
-        err, data <- registry-contract.registry store.current.nickname
+        err, data <- registry store.current.nickname
         return cb err if err?
         return cb "Address Not Found" if data is "0x0000000000000000000000000000000000000000"
         cb null, data
@@ -96,13 +96,13 @@ module.exports = ({ store })->
     topup-balance = (event)->
         err <- topup 0.1
         return alert err if err?
-        err, balance <- get-balance
+        err, balance <- get-balance store
         store.current.balance = balance
     buy-nickname = (event)->
         err, data <- check
         return alert err if err? and err isnt "Address Not Found"
         return alert "Address is already exists" if err isnt "Address Not Found"
-        err, transaction <- registry-contract.register-name store.current.nickname, store.current.account
+        err, transaction <- register-name store.current.nickname, store.current.account
         return alert err if err?
         alert "Your name is registered. Transaction #{transaction}"
     enter-nick = (event)->
@@ -110,7 +110,7 @@ module.exports = ({ store })->
         #console.log state.nickname
     .pug.main
         a.logo.pug
-            img.pug(src="http://res.cloudinary.com/nixar-work/image/upload/v1520772268/LOGO_5.png")
+            img.pug(src="//res.cloudinary.com/nixar-work/image/upload/v1520772268/LOGO_5.png")
         .content.pug
             .pug.resolve
                 input.enter.pug(placeholder="nickname" on-change=enter-nick)
