@@ -20,35 +20,31 @@ var web3 = require('web3'); // or window.web3
 
 var ethnamed = require('ethnamed')(web3);
 
+var showResult = function(err, result) {
+    console.log(err, result);
+}
+
 // TOP UP 0.1 ETH
 //But ETH on your account
 
-ethnamed.topup(0.1, function(err, result) {
-    console.log(err, result);
-});
+ethnamed.topup(0.1, showResult);
 
 
 // REGISTER NAME 
 //please topup the account before because each address costs 0.05 ETH
 
-ethnamed.registerName('nickname', '0x123...', function(err, result) {
-    console.log(err, result);
-});
+ethnamed.registerName('nickname', '0x123...', showResult);
 
 
 // CHANGE ADDRESS
 //Assign another address to nickname
 
-ethnamed.changeAddress('nickname', '0x123...', function(err, result) {
-    console.log(err, result);
-});
+ethnamed.changeAddress('nickname', '0x123...', showResult);
 
 // TRANSFER OWNERSHIP
 //Assign another owner
 
-ethnamed.transferOwnership('nickname', '0x123...', function(err, result) {
-    console.log(err, result);
-});
+ethnamed.transferOwnership('nickname', '0x123...', showResult);
 
 ```
 
