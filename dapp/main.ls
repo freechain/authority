@@ -125,11 +125,12 @@ content-body = ({ store })->
         store.current.balance = balance
         cb null, balance
     buy-nickname = (cb)->
+        { nickname, account } = store.current
         #return cb "Please topup a balance before" if +store.current.balance < 0.01
         err, data <- check
         return cb err if err? and err isnt "Address Not Found"
         return cb "Address is already exists" if err isnt "Address Not Found"
-        err, transaction <- register-name store.current.nickname, store.current.account
+        err, transaction <- register-name nickname, account
         return cb err if err?
         cb null, "Your name is registered. Transaction #{transaction}"
     buy-nickname-process = (cb)->
@@ -145,7 +146,8 @@ content-body = ({ store })->
         err, done <- buy-nickname-process
         store.current.status = \main
         return show-message(err.message ? err) if err?
-        show-message done
+        store.current.can-buy = no
+        <- resolve
     state =
         timeout: null
     enter-nick = (event)->
@@ -155,7 +157,7 @@ content-body = ({ store })->
         #console.log state.nickname
     .content.pug
         .pug.resolve
-            input.enter.pug(placeholder="nickname" on-change=enter-nick)
+            input.enter.pug(placeholder="nickname" on-change=enter-nick value="#{store.current.nickname}")
             button.pug.click-resolve(on-click=resolve)
                 if store.current.checking-balance
                     i.pug.zmdi.zmdi-spinner
@@ -178,6 +180,6 @@ module.exports = ({ store })->
             case \main
                 content-body { store }
             case \topup
-                .pug Please TOPUP the account 0.01 ETH to buy one name
+                .pug Please TOPUP the account on 0.01 ETH to buy one name
             case \buy-nickname
                 .pug Buy Nickname. Your balance is #{store.current.balance}
