@@ -4,10 +4,12 @@ require! {
 }
 page = \loading
 nickname = ""
-account = ""
+account = null
 balance = 0
 can-buy = no
 address = ""
 message = ""
-current = { page, nickname, account, address, message, balance, can-buy }
+status = \main
+checking-balance = no
+current = { page, nickname, account, address, message, balance, can-buy, checking-balance, status }
 module.exports = { current }

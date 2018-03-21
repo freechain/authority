@@ -6,6 +6,11 @@ require! {
     \./get-balance.ls
 }
 .main
+    @keyframes rotate
+        0%
+            transform: rotate(0deg) 
+        100%
+            transform: rotate(15deg)
     .logo
         position: absolute
         left: 20px
@@ -13,6 +18,12 @@ require! {
         line-height: normal
     text-align: center
     line-height: 100vh
+    .zmdi-spinner
+        transform: rotate(360deg)
+        transition-duration: 1s
+        transition-delay: now
+        animation-timing-function: linear
+        animation-iteration-count: infinite
     >.content
         $height: 160px
         $font: 20px
@@ -80,58 +91,93 @@ require! {
                         color: rgba(gray, 0.5)
                     &:hover
                         background: transparent
-module.exports = ({ store })->
+content-body = ({ store })->
+    price = 0.05ETH
     empty = ->
         ( store.current.nickname ? "" ).length is 0
-    alert = (message)->
+    show-message = (message)->
         store.current.message = message
+    can-buy-nickname = if store.current.can-buy then \active else \disabled
     check = (cb)->
-        return cb "Nickname is empty" if empty!
+        return cb? "Nickname is empty" if empty!
+        store.current.checking-balance = yes
         err <- verify-network
-        return cb err if err?
+        return cb? err if err?
         err, data <- registry store.current.nickname
-        return cb err if err?
+        store.current.checking-balance = no
+        return cb? err if err?
         can-buy = data is \0x0000000000000000000000000000000000000000
         store.current.can-buy = can-buy
-        return cb "Address Not Found" if can-buy
-        cb null, data
-    resolve = (event)->
+        return cb? "Address Not Found" if can-buy
+        cb? null, data
+    resolve = ->
         err, data <- check
-        return alert err if err?
-        alert data
+        return show-message err if err?
+        show-message data
         #console.log "/resolve/#{store.current.nickname}"
         #goto "/resolve/#{store.current.nickname}", store
-    topup-balance = (event)->
-        err <- topup 0.1
-        return alert err if err?
+    topup-balance = (cb)->
+        return cb null if +store.current.balance >= price
+        err <- topup price
+        return cb err if err?
         err, balance <- get-balance store
+        return cb err if err?
         store.current.balance = balance
-    can-buy-nickname = if store.current.can-buy and +store.current.balance >= 0.1 then \active else \disabled
-    buy-nickname = (event)->
-        return if store.current.can-buy isnt yes
+        cb null, balance
+    buy-nickname = (cb)->
+        #return cb "Please topup a balance before" if +store.current.balance < 0.01
         err, data <- check
-        return alert err if err? and err isnt "Address Not Found"
-        return alert "Address is already exists" if err isnt "Address Not Found"
+        return cb err if err? and err isnt "Address Not Found"
+        return cb "Address is already exists" if err isnt "Address Not Found"
         err, transaction <- register-name store.current.nickname, store.current.account
-        return alert err if err?
-        alert "Your name is registered. Transaction #{transaction}"
+        return cb err if err?
+        cb null, "Your name is registered. Transaction #{transaction}"
+    buy-nickname-process = (cb)->
+        store.current.status = \topup
+        err <- topup-balance
+        return cb err if err?
+        store.current.status = \buy-nickname
+        err, done <- buy-nickname
+        return cb err if err?
+        cb null
+    buy-nickname-click = (event)->
+        return if store.current.can-buy isnt yes
+        err, done <- buy-nickname-process
+        store.current.status = \main
+        return show-message(err.message ? err) if err?
+        show-message done
+    state =
+        timeout: null
     enter-nick = (event)->
         store.current.nickname = event.target.value
+        clear-timeout state.timeout
+        state.timeout = set-timeout resolve, 1000
         #console.log state.nickname
+    .content.pug
+        .pug.resolve
+            input.enter.pug(placeholder="nickname" on-change=enter-nick)
+            button.pug.click-resolve(on-click=resolve)
+                if store.current.checking-balance
+                    i.pug.zmdi.zmdi-spinner
+                else 
+                    i.pug.zmdi.zmdi-search
+        if (store.current.message ? "").length > 0
+            .pug.message #{store.current.message}
+        .pug.options
+            a.pug.disabled
+                span.pug.part.part1 YOUR 
+                span.pug.part.part2 BALANCE (#{store.current.balance})
+            a.pug.right(on-click=buy-nickname-click class="#{can-buy-nickname}")
+                span.pug.part.part1 BUY
+                span.pug.part.part2 NICKNAME
+module.exports = ({ store })->
     .pug.main
         a.logo.pug
             img.pug(src="//res.cloudinary.com/nixar-work/image/upload/v1520772268/LOGO_5.png")
-        .content.pug
-            .pug.resolve
-                input.enter.pug(placeholder="nickname" on-change=enter-nick)
-                button.pug.click-resolve(on-click=resolve)
-                    i.pug.zmdi.zmdi-search
-            if (store.current.message ? "").length > 0
-                .pug.message #{store.current.message}
-            .pug.options
-                a.pug(on-click=topup-balance)
-                    span.pug.part.part1 TOPUP
-                    span.pug.part.part2 BALANCE (#{store.current.balance} ETH)
-                a.pug.right(on-click=buy-nickname class="#{can-buy-nickname}")
-                    span.pug.part.part1 BUY
-                    span.pug.part.part2 NICKNAME
+        switch store.current.status
+            case \main
+                content-body { store }
+            case \topup
+                .pug Please TOPUP the account 0.01 ETH to buy one name
+            case \buy-nickname
+                .pug Buy Nickname. Your balance is #{store.current.balance}
