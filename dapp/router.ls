@@ -11,7 +11,7 @@ error-page = (err, store)->
     #Custom processing of errors
     return no-metamask-account store if err is "Default Account Is Not Found"
     store.current.page = \error
-    store.current.error = err
+    store.current.error = err ? "Error"
 no-metamask-account = (store)->
     store.current.bet.page = \metamask
 restore-profile = (url, store, cb)->

@@ -15,8 +15,6 @@ require! {
         font-size: 25px
     >.message
         font-size: 20px
-        
-
 standard = ->
     i.pug.zmdi.zmdi-error
 choose-ropsten = ->
