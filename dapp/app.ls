@@ -17,8 +17,7 @@ require! {
     overflow-x: hidden
     font-family: 'Titillium Web', sans-serif
     color: white
-    background: #2d2f39
-
+    background: #0c1230
 not-found = ->
     .content.pug Page Not Found
 module.exports = ({ store, io })->

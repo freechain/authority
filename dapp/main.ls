@@ -30,6 +30,7 @@ require! {
             >*
                 display: inline-block
                 box-sizing: border-box
+                vertical-align: top
                 height: $height / 2
                 background: transparent
                 border: 0
@@ -45,7 +46,7 @@ require! {
                     width: 30%
                     color: white
                     cursor: pointer
-                    font-size: 30px
+                    font-size: 45px
                     &:hover
                         background: rgba(white, 0.1)
         >.message
@@ -74,6 +75,11 @@ require! {
                         color: orange
                         margin-right: 2px
                     &.part2
+                &.disabled
+                    .part1, .part2
+                        color: rgba(gray, 0.5)
+                    &:hover
+                        background: transparent
 module.exports = ({ store })->
     empty = ->
         ( store.current.nickname ? "" ).length is 0
@@ -85,7 +91,9 @@ module.exports = ({ store })->
         return cb err if err?
         err, data <- registry store.current.nickname
         return cb err if err?
-        return cb "Address Not Found" if data is "0x0000000000000000000000000000000000000000"
+        can-buy = data is \0x0000000000000000000000000000000000000000
+        store.current.can-buy = can-buy
+        return cb "Address Not Found" if can-buy
         cb null, data
     resolve = (event)->
         err, data <- check
@@ -98,7 +106,9 @@ module.exports = ({ store })->
         return alert err if err?
         err, balance <- get-balance store
         store.current.balance = balance
+    can-buy-nickname = if store.current.can-buy and +store.current.balance >= 0.1 then \active else \disabled
     buy-nickname = (event)->
+        return if store.current.can-buy isnt yes
         err, data <- check
         return alert err if err? and err isnt "Address Not Found"
         return alert "Address is already exists" if err isnt "Address Not Found"
@@ -122,6 +132,6 @@ module.exports = ({ store })->
                 a.pug(on-click=topup-balance)
                     span.pug.part.part1 TOPUP
                     span.pug.part.part2 BALANCE (#{store.current.balance} ETH)
-                a.pug.right(on-click=buy-nickname)
+                a.pug.right(on-click=buy-nickname class="#{can-buy-nickname}")
                     span.pug.part.part1 BUY
                     span.pug.part.part2 NICKNAME
