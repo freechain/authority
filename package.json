@@ -1,0 +1,54 @@
+{
+  "name": "ethnamed",
+  "version": "1.0.0",
+  "description": "This dapp helps register names in Ethnamed Registry",
+  "main": "ethnamed.js",
+  "dependencies": {
+    "abi-decoder": "^1.1.0",
+    "async": "^2.6.0",
+    "big.js": "^5.0.3",
+    "bignumber.js": "^6.0.0",
+    "body-parser": "^1.18.2",
+    "cheerio": "^1.0.0-rc.2",
+    "cors": "^2.8.4",
+    "decomment": "^0.9.1",
+    "ethereumjs-abi": "^0.6.5",
+    "ethereumjs-tx": "^1.3.4",
+    "localStorage": "^1.0.3",
+    "mobx": "^4.1.0",
+    "mobx-react": "^5.0.0",
+    "moment": "^2.22.1",
+    "prelude-ls": "^1.1.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-fontawesome": "^1.6.1",
+    "react-material-iconic-font": "^1.2.1",
+    "require-ls": "0.0.8",
+    "solc": "^0.4.21",
+    "superagent": "^3.8.2",
+    "web3": "^1.0.0-beta.34",
+    "whitebox": "^0.1.59"
+  },
+  "scripts": {
+    "makeapi": "cd ./api && sh ./compile && cd ../",
+    "quick-start": "npm run install && npm run compile && node server.js",
+    "start": "lsc -c server.ls && node server.js",
+    "blockchain": "cd ./blockchain && sh ./ganache-c9.sh && cd ../",
+    "deploy": "cd ./blockchain && lsc ./deploy.ls && cd ../ && npm run compile",
+    "setup": "npm i && npm i -g livescript lsxc forever ganache-cli",
+    "compile": "npm run makeapi && cd ./dapp && lsxc -t index.html -hpskbfc  client.ls && cd ../ && lsc -c server.ls",
+    "wallet": "cd wallet && lsxc -t index.html -n 8081 -wsfkbhc main.ls && cd ..",
+    "compile-watch": "cd ./dapp && lsxc -t index.html -hpskbfcw client.ls && cd ../"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ethnamed/registrant-dapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ethnamed/registrant-dapp/issues"
+  },
+  "homepage": "https://github.com/ethnamed/registrant-dapp#readme"
+}
